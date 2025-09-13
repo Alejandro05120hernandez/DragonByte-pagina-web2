@@ -481,6 +481,61 @@ body {
     box-shadow: 0 0 15px var(--primary);
 }
 
+/* Image Options */
+.image-options {
+    display: flex;
+    gap: 1rem;
+    margin: 1rem 0;
+    padding: 1rem;
+    background: var(--bg-secondary);
+    border-radius: 6px;
+    border: 1px solid var(--border);
+}
+
+.image-options .option {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    flex: 1;
+}
+
+.image-options input[type="radio"] {
+    width: auto;
+    margin: 0;
+    accent-color: var(--primary);
+}
+
+.image-options label {
+    margin: 0;
+    color: var(--text-primary);
+    cursor: pointer;
+    font-weight: 500;
+    transition: color 0.3s ease;
+}
+
+.image-options input[type="radio"]:checked + label {
+    color: var(--primary);
+    text-shadow: 0 0 5px var(--primary);
+}
+
+.form-container input[type="file"],
+.form-container input[type="url"] {
+    margin-top: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.form-container input[type="url"]:valid {
+    border-color: var(--success);
+    box-shadow: 0 0 5px rgba(0, 255, 157, 0.3);
+}
+
+.form-container small {
+    display: block;
+    margin-top: 0.5rem;
+    color: var(--text-muted);
+    font-size: 0.85rem;
+}
+
 /* Messages */
 .mensaje {
     margin-top: 1.2rem;

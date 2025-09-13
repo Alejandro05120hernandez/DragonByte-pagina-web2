@@ -13,6 +13,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $precio = $_POST["precio"];
     $descripcion = trim($_POST["descripcion"]);
     $vendedor = $_SESSION["user"];
+    $url_imagen = trim($_POST["url_imagen"] ?? "");
     
     // Validaciones básicas
     if (empty($nombre) || empty($precio) || empty($descripcion)) {
@@ -22,43 +23,80 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $mensaje = "⚠️ El precio debe ser un número válido mayor a 0.";
         $tipo = "error";
     } else {
-        // Carpeta para imágenes
-        $carpeta = "uploads/";
-        if (!is_dir($carpeta)) {
-            mkdir($carpeta, 0777, true);
-        }
-
-        // Subir imagen
-        $nombreImagen = basename($_FILES["imagen"]["name"]);
-        $imagen = $carpeta . uniqid() . "_" . $nombreImagen;
-        $tipoArchivo = strtolower(pathinfo($imagen, PATHINFO_EXTENSION));
-
+        $imagen = "";
         $uploadOk = 1;
         
-        // Validar que sea imagen
-        $check = getimagesize($_FILES["imagen"]["tmp_name"]);
-        if($check === false) {
-            $mensaje = "⚠️ El archivo no es una imagen.";
-            $tipo = "error";
-            $uploadOk = 0;
-        }
+        // Verificar si se proporcionó URL de imagen
+        if (!empty($url_imagen)) {
+            // Validar que sea una URL válida
+            if (filter_var($url_imagen, FILTER_VALIDATE_URL)) {
+                // Verificar que la URL termine en una extensión de imagen
+                $extension = strtolower(pathinfo(parse_url($url_imagen, PHP_URL_PATH), PATHINFO_EXTENSION));
+                if (in_array($extension, ['jpg', 'jpeg', 'png', 'gif'])) {
+                    $imagen = $url_imagen;
+                    $uploadOk = 1;
+                } else {
+                    $mensaje = "⚠️ La URL debe terminar en .jpg, .jpeg, .png o .gif";
+                    $tipo = "error";
+                    $uploadOk = 0;
+                }
+            } else {
+                $mensaje = "⚠️ URL de imagen no válida.";
+                $tipo = "error";
+                $uploadOk = 0;
+            }
+        } 
+        // Si no hay URL, procesar archivo subido
+        elseif (isset($_FILES["imagen"]) && $_FILES["imagen"]["error"] == 0) {
+            // Carpeta para imágenes
+            $carpeta = "uploads/";
+            if (!is_dir($carpeta)) {
+                mkdir($carpeta, 0777, true);
+            }
 
-        // Limitar extensiones
-        if(!in_array($tipoArchivo, ["jpg","jpeg","png","gif"])) {
-            $mensaje = "⚠️ Solo se permiten imágenes JPG, JPEG, PNG o GIF.";
-            $tipo = "error";
-            $uploadOk = 0;
-        }
+            // Subir imagen
+            $nombreImagen = basename($_FILES["imagen"]["name"]);
+            $imagen = $carpeta . uniqid() . "_" . $nombreImagen;
+            $tipoArchivo = strtolower(pathinfo($imagen, PATHINFO_EXTENSION));
 
-        // Limitar tamaño (máximo 2MB)
-        if ($_FILES["imagen"]["size"] > 2000000) {
-            $mensaje = "⚠️ La imagen es demasiado grande. Máximo 2MB.";
+            // Validar que sea imagen
+            $check = getimagesize($_FILES["imagen"]["tmp_name"]);
+            if($check === false) {
+                $mensaje = "⚠️ El archivo no es una imagen.";
+                $tipo = "error";
+                $uploadOk = 0;
+            }
+
+            // Limitar extensiones
+            if(!in_array($tipoArchivo, ["jpg","jpeg","png","gif"])) {
+                $mensaje = "⚠️ Solo se permiten imágenes JPG, JPEG, PNG o GIF.";
+                $tipo = "error";
+                $uploadOk = 0;
+            }
+
+            // Limitar tamaño (máximo 2MB)
+            if ($_FILES["imagen"]["size"] > 2000000) {
+                $mensaje = "⚠️ La imagen es demasiado grande. Máximo 2MB.";
+                $tipo = "error";
+                $uploadOk = 0;
+            }
+        } else {
+            $mensaje = "⚠️ Debes proporcionar una imagen (archivo o URL).";
             $tipo = "error";
             $uploadOk = 0;
         }
 
         if ($uploadOk == 1) {
-            if (move_uploaded_file($_FILES["imagen"]["tmp_name"], $imagen)) {
+            // Si es archivo local, moverlo
+            if (!empty($_FILES["imagen"]["tmp_name"])) {
+                if (!move_uploaded_file($_FILES["imagen"]["tmp_name"], $imagen)) {
+                    $mensaje = "⚠️ Error al subir la imagen.";
+                    $tipo = "error";
+                    $uploadOk = 0;
+                }
+            }
+            
+            if ($uploadOk == 1) {
                 // Guardar en BD usando consultas preparadas
                 $stmt = $conn->prepare("INSERT INTO laptops (nombre, precio, descripcion, imagen, vendedor) VALUES (?, ?, ?, ?, ?)");
                 $stmt->bind_param("sdsss", $nombre, $precio, $descripcion, $imagen, $vendedor);
@@ -67,15 +105,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     $mensaje = "✅ Laptop agregada correctamente.";
                     $tipo = "exito";
                     // Limpiar campos después de éxito
-                    $nombre = $precio = $descripcion = "";
+                    $nombre = $precio = $descripcion = $url_imagen = "";
                 } else {
                     $mensaje = "⚠️ Error al guardar en la base de datos: " . $conn->error;
                     $tipo = "error";
                 }
                 $stmt->close();
-            } else {
-                $mensaje = "⚠️ Error al subir la imagen.";
-                $tipo = "error";
             }
         }
     }
@@ -121,7 +156,19 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <textarea name="descripcion" required><?php echo isset($descripcion) ? htmlspecialchars($descripcion) : ''; ?></textarea>
 
                 <label>IMAGEN:</label>
-                <input type="file" name="imagen" accept="image/*" required>
+                <div class="image-options">
+                    <div class="option">
+                        <input type="radio" id="option-file" name="image_option" value="file" checked onchange="toggleImageOption()">
+                        <label for="option-file">📁 Subir archivo</label>
+                    </div>
+                    <div class="option">
+                        <input type="radio" id="option-url" name="image_option" value="url" onchange="toggleImageOption()">
+                        <label for="option-url">🌐 URL de imagen</label>
+                    </div>
+                </div>
+                <input type="file" id="imagen-file" name="imagen" accept="image/*">
+                <input type="url" id="imagen-url" name="url_imagen" placeholder="https://ejemplo.com/imagen.jpg" value="<?php echo htmlspecialchars($url_imagen ?? ''); ?>" style="display: none;">
+                <small>📌 Formatos permitidos: JPG, PNG, GIF. Para archivos: máximo 2MB</small>
 
                 <button type="submit">GUARDAR LAPTOP</button>
             </form>
@@ -133,5 +180,50 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             <a href="home.php" class="volver">← VOLVER AL INICIO</a>
         </div>
     </div>
+
+    <script>
+    function toggleImageOption() {
+        const fileOption = document.getElementById('option-file');
+        const urlOption = document.getElementById('option-url');
+        const fileInput = document.getElementById('imagen-file');
+        const urlInput = document.getElementById('imagen-url');
+        
+        if (fileOption.checked) {
+            fileInput.style.display = 'block';
+            urlInput.style.display = 'none';
+            fileInput.required = true;
+            urlInput.required = false;
+        } else {
+            fileInput.style.display = 'none';
+            urlInput.style.display = 'block';
+            fileInput.required = false;
+            urlInput.required = true;
+        }
+    }
+    
+    // Validar URL en tiempo real
+    document.getElementById('imagen-url').addEventListener('input', function() {
+        const url = this.value;
+        const validExtensions = ['jpg', 'jpeg', 'png', 'gif'];
+        
+        if (url) {
+            try {
+                const parsedUrl = new URL(url);
+                const path = parsedUrl.pathname;
+                const extension = path.split('.').pop().toLowerCase();
+                
+                if (validExtensions.includes(extension)) {
+                    this.style.border = '2px solid #00ff00';
+                } else {
+                    this.style.border = '2px solid #ff6b6b';
+                }
+            } catch {
+                this.style.border = '2px solid #ff6b6b';
+            }
+        } else {
+            this.style.border = '';
+        }
+    });
+    </script>
 </body>
 </html>

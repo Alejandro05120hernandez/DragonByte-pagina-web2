@@ -38,6 +38,10 @@ $stmt->close();
         <nav class="nav">
             <a href="home.php" class="active">INICIO</a>
             <a href="laptops.php">LAPTOPS</a>
+            <a href="carrito.php">
+                <i class="fas fa-shopping-cart"></i> CARRITO
+                <span id="cart-count" style="background: var(--error); border-radius: 50%; padding: 2px 6px; font-size: 0.8rem; margin-left: 5px;">0</span>
+            </a>
             <?php if (isAdmin()): ?>
                 <a href="admin.php">PANEL ADMIN</a>
             <?php endif; ?>
@@ -89,6 +93,9 @@ $stmt->close();
                             <?php endif; ?>
                             <div class="laptop-actions">
                                 <a href="view_laptop.php?id=<?php echo $laptop['id']; ?>" class="btn btn-view">VER DETALLES</a>
+                                <button onclick="addToCart(<?php echo $laptop['id']; ?>)" class="btn" style="background: linear-gradient(90deg, var(--success), var(--secondary)); color: white; border: none; cursor: pointer;">
+                                    <i class="fas fa-cart-plus"></i> AGREGAR
+                                </button>
                                 <?php if (isAdmin()): ?>
                                     <a href="delete_laptop.php?id=<?php echo $laptop['id']; ?>" class="btn btn-delete" onclick="return confirm('¿Estás seguro de eliminar esta laptop?');">ELIMINAR</a>
                                 <?php endif; ?>
@@ -125,5 +132,46 @@ $stmt->close();
             <p>© 2023 DRAGONTECH - Todos los derechos reservados</p>
         </div>
     </footer>
+
+    <script>
+    // Función para agregar al carrito
+    function addToCart(laptopId) {
+        fetch('add_to_cart.php', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                laptop_id: laptopId,
+                cantidad: 1
+            })
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                alert('✅ Producto agregado al carrito');
+                updateCartCount();
+            } else {
+                alert('❌ Error: ' + data.message);
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            alert('❌ Error al agregar al carrito');
+        });
+    }
+
+    // Actualizar contador del carrito
+    function updateCartCount() {
+        fetch('get_cart_count.php')
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('cart-count').textContent = data.count || 0;
+        });
+    }
+
+    // Cargar contador al iniciar
+    updateCartCount();
+    </script>
 </body>
 </html>

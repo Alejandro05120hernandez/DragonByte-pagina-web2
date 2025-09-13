@@ -42,6 +42,10 @@ $laptops_recientes = $stmt->get_result()->fetch_all(MYSQLI_ASSOC);
         </div>
         <nav class="nav">
             <a href="home.php">INICIO</a>
+            <a href="laptops.php">LAPTOPS</a>
+            <a href="carrito.php">
+                <i class="fas fa-shopping-cart"></i> CARRITO
+            </a>
             <a href="admin.php" class="active">PANEL ADMIN</a>
             <a href="add-laptop.php">AGREGAR LAPTOP</a>
             <a href="logout.php">CERRAR SESIÓN</a>
