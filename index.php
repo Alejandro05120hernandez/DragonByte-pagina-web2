@@ -9,7 +9,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password = $_POST["password"];
 
     if (!empty($username) && !empty($password)) {
-        $stmt = $conn->prepare("SELECT id, username, password FROM usuarios WHERE username = ?");
+        $stmt = $conn->prepare("SELECT id, username, password, rol FROM usuarios WHERE username = ?");
         $stmt->bind_param("s", $username);
         $stmt->execute();
         $result = $stmt->get_result();
@@ -19,6 +19,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if (password_verify($password, $user["password"])) {
                 $_SESSION["user"] = $user["id"];
                 $_SESSION["username"] = $user["username"];
+                $_SESSION["rol"] = $user["rol"];
                 header("Location: home.php");
                 exit();
             } else {

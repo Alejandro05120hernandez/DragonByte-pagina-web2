@@ -1,18 +1,18 @@
 <?php
 session_start();
-if (!isset($_SESSION["user"])) {
-    header("Location: index.php");
-    exit();
-}
 include "db.php";
+include "auth.php";
+
+// Verificar que esté logueado y sea administrador
+requireLogin();
+requireAdmin();
 
 if (isset($_GET["id"]) && is_numeric($_GET["id"])) {
     $id = intval($_GET["id"]);
-    $user_id = $_SESSION["user"];
     
-    // Verificar que el usuario es el propietario antes de eliminar
-    $stmt = $conn->prepare("SELECT imagen FROM laptops WHERE id = ? AND vendedor = ?");
-    $stmt->bind_param("is", $id, $user_id);
+    // Como es admin, puede eliminar cualquier laptop
+    $stmt = $conn->prepare("SELECT imagen FROM laptops WHERE id = ?");
+    $stmt->bind_param("i", $id);
     $stmt->execute();
     $result = $stmt->get_result();
     

@@ -1,0 +1,9 @@
+# Prevenir ejecución de scripts en uploads
+<Files ~ "\.(php|phtml|php3|php4|php5|pl|py|jsp|asp|sh|cgi)$">
+deny from all
+</Files>
+
+# Permitir solo imágenes
+<FilesMatch "\.(jpg|jpeg|png|gif|bmp|webp)$">
+allow from all
+</FilesMatch>

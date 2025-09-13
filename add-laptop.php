@@ -1,12 +1,11 @@
 <?php
 session_start();
 include "db.php";
+include "auth.php";
 
-// Si no está logueado, redirigir
-if (!isset($_SESSION["user"])) {
-    header("Location: index.php");
-    exit();
-}
+// Verificar que esté logueado y sea administrador
+requireLogin();
+requireAdmin();
 
 // Procesar formulario al enviar
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -100,11 +99,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
         <nav class="nav">
             <a href="home.php">INICIO</a>
-            <a href="laptops.php">LAPTOPS</a>
-            <a href="sales.php">VENTAS</a>
+            <a href="admin.php">PANEL ADMIN</a>
+            <a href="add-laptop.php" class="active">AGREGAR LAPTOP</a>
             <a href="logout.php">CERRAR SESIÓN</a>
         </nav>
-        <a href="home.php" class="add-btn">← VOLVER</a>
+        <a href="admin.php" class="add-btn">← VOLVER AL PANEL</a>
     </header>
 
     <div class="container">
