@@ -1,0 +1,274 @@
+/* ==================== VARIABLES CSS ==================== */
+:root {
+    /* Colores principales */
+    --primary: #ff3864;
+    --primary-glow: #ff3864;
+    --secondary: #00d9ff;
+    --secondary-glow: #00d9ff;
+    --accent: #7e42ff;
+    
+    /* Fondos */
+    --bg-primary: #0a0a12;
+    --bg-secondary: #12121f;
+    --bg-tertiary: #1a1a2e;
+    
+    /* Textos */
+    --text-primary: #ffffff;
+    --text-secondary: #b4b4cc;
+    --text-muted: #6b6b8a;
+    
+    /* Otros */
+    --border: #2a2a3e;
+    --success: #00ff9d;
+    --error: #ff3864;
+    
+    /* Gradientes y efectos */
+    --card-gradient: linear-gradient(145deg, #12121f, #1a1a2e);
+    --neon-shadow: 0 0 5px var(--primary), 0 0 10px var(--primary);
+    
+    /* Transiciones */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.3s ease;
+    --transition-slow: 0.5s ease;
+    
+    /* Bordes */
+    --border-radius: 8px;
+    --border-radius-large: 15px;
+    
+    /* Sombras */
+    --shadow-small: 0 2px 8px rgba(0, 0, 0, 0.2);
+    --shadow-medium: 0 5px 15px rgba(0, 0, 0, 0.3);
+    --shadow-large: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+
+/* ==================== RESET Y BASE ==================== */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Rajdhani', 'Orbitron', sans-serif;
+}
+
+body {
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    min-height: 100vh;
+    background-image: 
+        radial-gradient(circle at 15% 50%, rgba(126, 66, 255, 0.05) 0%, transparent 20%),
+        radial-gradient(circle at 85% 30%, rgba(255, 56, 100, 0.05) 0%, transparent 20%);
+}
+
+/* ==================== UTILIDADES ==================== */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 2rem;
+}
+
+.text-center {
+    text-align: center;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* ==================== BOTONES BASE ==================== */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    text-transform: uppercase;
+}
+
+.btn-primary {
+    background: linear-gradient(45deg, var(--primary), var(--accent));
+    color: white;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(255, 56, 100, 0.3);
+}
+
+.btn-secondary {
+    background: linear-gradient(45deg, var(--secondary), var(--accent));
+    color: white;
+}
+
+.btn-secondary:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(0, 217, 255, 0.3);
+}
+
+.btn-outline {
+    background: transparent;
+    border: 2px solid var(--primary);
+    color: var(--primary);
+}
+
+.btn-outline:hover {
+    background: var(--primary);
+    color: white;
+}
+
+/* ==================== FORMULARIOS BASE ==================== */
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+}
+
+.form-group label {
+    color: var(--text-primary);
+    font-weight: 600;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.form-group label i {
+    color: var(--primary);
+    width: 16px;
+}
+
+.form-group input,
+.form-group textarea,
+.form-group select {
+    background: var(--bg-tertiary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    padding: 0.75rem;
+    color: var(--text-primary);
+    font-size: 1rem;
+    transition: all var(--transition-normal);
+}
+
+.form-group input:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(255, 56, 100, 0.3);
+}
+
+.form-group input[readonly] {
+    background: var(--bg-secondary);
+    color: var(--text-muted);
+    cursor: not-allowed;
+}
+
+.form-group small {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+/* ==================== MENSAJES ==================== */
+.message {
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.message.success {
+    background: rgba(0, 255, 157, 0.1);
+    border: 1px solid var(--success);
+    color: var(--success);
+}
+
+.message.error {
+    background: rgba(255, 56, 100, 0.1);
+    border: 1px solid var(--error);
+    color: var(--error);
+}
+
+.message.warning {
+    background: rgba(255, 193, 7, 0.1);
+    border: 1px solid #ffc107;
+    color: #ffc107;
+}
+
+.message.info {
+    background: rgba(0, 123, 255, 0.1);
+    border: 1px solid #007bff;
+    color: #007bff;
+}
+
+/* ==================== CARDS ==================== */
+.card {
+    background: var(--card-gradient);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius-large);
+    padding: 1.5rem;
+    box-shadow: var(--shadow-medium);
+    transition: all var(--transition-normal);
+}
+
+.card:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-large);
+}
+
+.card-header {
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.card-title {
+    color: var(--text-primary);
+    font-size: 1.5rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+}
+
+.card-subtitle {
+    color: var(--text-secondary);
+    font-size: 1rem;
+}
+
+/* ==================== RESPONSIVE ==================== */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+    
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .btn {
+        width: 100%;
+        padding: 0.8rem;
+    }
+}

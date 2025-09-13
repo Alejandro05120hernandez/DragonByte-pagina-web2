@@ -76,7 +76,7 @@ $total = $subtotal + $impuestos + $envio;
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Carrito de Compras - DragonTech</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -91,6 +91,9 @@ $total = $subtotal + $impuestos + $envio;
             <a href="laptops.php">LAPTOPS</a>
             <a href="carrito.php" class="active">
                 <i class="fas fa-shopping-cart"></i> CARRITO
+            </a>
+            <a href="profile.php">
+                <i class="fas fa-user"></i> PERFIL
             </a>
             <?php if (isAdmin()): ?>
                 <a href="admin.php">PANEL ADMIN</a>
@@ -265,6 +268,10 @@ $total = $subtotal + $impuestos + $envio;
     </footer>
 
     <script>
+    // Log de inicialización
+    console.log('🚀 Script del carrito cargado');
+    console.log('📊 Items en carrito desde PHP:', <?php echo count($carrito_items); ?>);
+    
     function changeQuantity(button, change) {
         const input = button.parentElement.querySelector('input[name="cantidad"]');
         let newValue = parseInt(input.value) + change;
@@ -275,14 +282,32 @@ $total = $subtotal + $impuestos + $envio;
     }
 
     function proceedToCheckout() {
-        alert('🚧 Funcionalidad de pago en desarrollo.\n\n' +
-              'En una implementación real, aquí se integraría con:\n' +
-              '• Stripe, PayPal, MercadoPago\n' +
-              '• Sistema de direcciones de envío\n' +
-              '• Confirmación de pedido\n' +
-              '• Gestión de inventario\n\n' +
-              'Por ahora, gracias por probar el carrito! 😊');
+        // Función de prueba simplificada
+        alert('🚀 Función proceedToCheckout ejecutada correctamente');
+        
+        // Verificar que haya items en el carrito desde PHP
+        const hasItems = <?php echo count($carrito_items) > 0 ? 'true' : 'false'; ?>;
+        
+        if (!hasItems) {
+            alert('❌ Tu carrito está vacío. Agrega productos antes de proceder al pago.');
+            return;
+        }
+        
+        // Confirmar antes de redirigir
+        if (confirm('¿Proceder al checkout? (Se abrirá checkout.php)')) {
+            window.location.href = 'checkout.php';
+        }
     }
+    
+    // Verificar que el botón existe
+    document.addEventListener('DOMContentLoaded', function() {
+        const checkoutBtn = document.querySelector('button[onclick="proceedToCheckout()"]');
+        if (checkoutBtn) {
+            console.log('✅ Botón de checkout encontrado');
+        } else {
+            console.log('❌ Botón de checkout NO encontrado');
+        }
+    });
     </script>
 </body>
 </html>

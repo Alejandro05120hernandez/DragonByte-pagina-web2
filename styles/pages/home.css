@@ -1,0 +1,284 @@
+/* ==================== PÁGINA HOME ==================== */
+
+/* Hero Section */
+.hero {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: linear-gradient(rgba(10, 10, 18, 0.9), rgba(10, 10, 18, 0.9)), 
+                url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100" width="100" height="100"><rect fill="%2312121f" width="100" height="100"/><path fill="%231a1a2e" d="M0 0h100v100H0z"/></svg>');
+    background-size: cover;
+    position: relative;
+    overflow: hidden;
+}
+
+.hero::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 56, 100, 0.1) 0%, transparent 50%);
+    animation: rotate 20s linear infinite;
+}
+
+@keyframes rotate {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.hero h1 {
+    font-size: 3.5rem;
+    margin-bottom: 1rem;
+    background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    font-family: 'Orbitron', sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.hero p {
+    color: var(--text-secondary);
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.hero-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+}
+
+/* Section Titles */
+.section-title {
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 2.2rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    color: var(--primary);
+    text-shadow: 0 0 10px var(--primary);
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+.section-title::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+}
+
+/* ==================== GRID DE LAPTOPS ==================== */
+
+.laptops-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.laptop-card {
+    background: var(--card-gradient);
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    transition: all var(--transition-normal);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-medium);
+    position: relative;
+}
+
+.laptop-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+    opacity: 0.7;
+}
+
+.laptop-card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-large), 0 0 15px rgba(255, 56, 100, 0.2);
+}
+
+.laptop-image {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+    border-bottom: 1px solid var(--border);
+    transition: transform var(--transition-normal);
+}
+
+.laptop-card:hover .laptop-image {
+    transform: scale(1.05);
+}
+
+.laptop-info {
+    padding: 1.5rem;
+}
+
+.laptop-name {
+    font-size: 1.3rem;
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+    text-shadow: 0 0 5px var(--primary);
+}
+
+.laptop-price {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--success);
+    margin-bottom: 1rem;
+    text-shadow: 0 0 5px var(--success);
+}
+
+.laptop-description {
+    color: var(--text-secondary);
+    margin-bottom: 1.5rem;
+    line-height: 1.5;
+    font-size: 0.95rem;
+    overflow: hidden;
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+}
+
+.laptop-actions {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+}
+
+/* Botones específicos de laptop cards */
+.btn-view {
+    background: transparent;
+    color: var(--secondary);
+    border: 1px solid var(--secondary);
+    text-shadow: 0 0 5px var(--secondary);
+    flex: 1;
+}
+
+.btn-view:hover {
+    background-color: var(--secondary);
+    color: white;
+    box-shadow: 0 0 15px var(--secondary);
+}
+
+.btn-delete {
+    background: transparent;
+    color: var(--error);
+    border: 1px solid var(--error);
+    text-shadow: 0 0 5px var(--error);
+    flex: 1;
+}
+
+.btn-delete:hover {
+    background-color: var(--error);
+    color: white;
+    box-shadow: 0 0 15px var(--error);
+}
+
+/* ==================== EMPTY STATE ==================== */
+.empty-state {
+    text-align: center;
+    padding: 4rem 2rem;
+    background: var(--card-gradient);
+    border-radius: var(--border-radius-large);
+    border: 1px solid var(--border);
+    margin: 2rem 0;
+}
+
+.empty-state i {
+    font-size: 4rem;
+    color: var(--text-muted);
+    margin-bottom: 1rem;
+}
+
+.empty-state h3 {
+    color: var(--text-primary);
+    margin-bottom: 1rem;
+    font-size: 1.5rem;
+}
+
+.empty-state p {
+    color: var(--text-secondary);
+    margin-bottom: 2rem;
+}
+
+/* ==================== RESPONSIVE HOME ==================== */
+@media (max-width: 768px) {
+    .hero {
+        padding: 3rem 1rem;
+    }
+    
+    .hero h1 {
+        font-size: 2.5rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .hero-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.8rem;
+    }
+    
+    .laptops-grid {
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 1.5rem;
+    }
+    
+    .laptop-actions {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero h1 {
+        font-size: 2rem;
+        letter-spacing: 1px;
+    }
+    
+    .laptops-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .laptop-info {
+        padding: 1rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+}

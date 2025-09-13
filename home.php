@@ -25,7 +25,7 @@ $stmt->close();
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inicio - DragonTech</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="styles/main.css">
     <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Orbitron:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 </head>
@@ -41,6 +41,9 @@ $stmt->close();
             <a href="carrito.php">
                 <i class="fas fa-shopping-cart"></i> CARRITO
                 <span id="cart-count" style="background: var(--error); border-radius: 50%; padding: 2px 6px; font-size: 0.8rem; margin-left: 5px;">0</span>
+            </a>
+            <a href="profile.php">
+                <i class="fas fa-user"></i> PERFIL
             </a>
             <?php if (isAdmin()): ?>
                 <a href="admin.php">PANEL ADMIN</a>
@@ -125,8 +128,8 @@ $stmt->close();
             <div class="footer-links">
                 <a href="home.php">Inicio</a>
                 <a href="laptops.php">Laptops</a>
-                <a href="sales.php">Ventas</a>
-                <a href="add_laptop.php">Agregar Laptop</a>
+                <a href="carrito.php">Carrito</a>
+                <a href="profile.php">Mi Perfil</a>
                 <a href="logout.php">Cerrar Sesión</a>
             </div>
             <p>© 2023 DRAGONTECH - Todos los derechos reservados</p>

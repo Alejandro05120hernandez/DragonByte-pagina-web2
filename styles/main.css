@@ -1,0 +1,314 @@
+/* ==================== DRAGONTECH MAIN STYLES ==================== */
+/* 
+  Estructura modular de CSS para DragonTech
+  Organizado por categorías para mejor mantenimiento
+*/
+
+/* ==================== BASE ==================== */
+/* Variables CSS, reset, utilidades y estilos base */
+@import url('base.css');
+
+/* ==================== COMPONENTES ==================== */
+/* Componentes reutilizables */
+@import url('components/navigation.css');
+
+/* ==================== PÁGINAS ==================== */
+/* Estilos específicos por página */
+@import url('pages/home.css');
+@import url('pages/cart.css'); 
+@import url('pages/checkout.css');
+@import url('pages/profile.css');
+
+/* ==================== ESTILOS ADICIONALES ==================== */
+
+/* Formularios de login y registro */
+.login-container, 
+.form-container {
+    max-width: 450px;
+    margin: 3rem auto;
+    padding: 2.5rem;
+    background: var(--card-gradient);
+    border-radius: var(--border-radius);
+    border: 1px solid var(--border);
+    box-shadow: var(--shadow-large);
+    position: relative;
+    overflow: hidden;
+}
+
+.login-container::before, 
+.form-container::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary), var(--accent), var(--secondary));
+}
+
+.form-container {
+    max-width: 550px;
+}
+
+.form-container label {
+    display: block;
+    margin-top: 1.2rem;
+    color: var(--text-secondary);
+    font-weight: 500;
+}
+
+.form-container input, 
+.form-container textarea {
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 0.5rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+    transition: all var(--transition-normal);
+}
+
+.form-container input:focus, 
+.form-container textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(255, 56, 100, 0.3);
+}
+
+.form-container textarea {
+    min-height: 120px;
+    resize: vertical;
+}
+
+.form-container button {
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 1.5rem;
+    background: transparent;
+    color: var(--primary);
+    border: 1px solid var(--primary);
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    transition: all var(--transition-normal);
+    font-weight: 600;
+    text-shadow: 0 0 5px var(--primary);
+}
+
+.form-container button:hover {
+    background-color: var(--primary);
+    color: white;
+    box-shadow: 0 0 15px var(--primary);
+}
+
+.login-container input {
+    width: 100%;
+    margin: 1rem 0;
+    padding: 0.8rem;
+    background: var(--bg-primary);
+    border: 1px solid var(--border);
+    border-radius: var(--border-radius);
+    color: var(--text-primary);
+}
+
+.login-container input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 10px rgba(255, 56, 100, 0.3);
+}
+
+.login-container button {
+    width: 100%;
+    padding: 0.8rem;
+    background: linear-gradient(90deg, var(--primary), var(--accent));
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 600;
+    transition: all var(--transition-normal);
+}
+
+.login-container button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(255, 56, 100, 0.4);
+}
+
+.login-container h2 {
+    text-align: center;
+    margin-bottom: 2rem;
+    color: var(--primary);
+    font-size: 2rem;
+    text-shadow: var(--neon-shadow);
+}
+
+.login-container p {
+    text-align: center;
+    margin-top: 1rem;
+    color: var(--text-secondary);
+}
+
+.login-container a {
+    color: var(--secondary);
+    text-decoration: none;
+    transition: color var(--transition-normal);
+}
+
+.login-container a:hover {
+    color: var(--primary);
+}
+
+.error {
+    background: rgba(255, 56, 100, 0.1);
+    color: var(--error);
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    border: 1px solid var(--error);
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+/* ==================== ANIMACIONES GLOBALES ==================== */
+
+/* Fade in animation */
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Slide in animation */
+@keyframes slideIn {
+    from {
+        opacity: 0;
+        transform: translateX(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Scale animation */
+@keyframes scaleIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+/* Page transitions */
+.page-transition {
+    animation: fadeIn 0.5s ease;
+}
+
+/* Loading states */
+.loading {
+    opacity: 0.7;
+    pointer-events: none;
+    cursor: wait;
+}
+
+.spinner {
+    border: 2px solid var(--border);
+    border-top: 2px solid var(--primary);
+    border-radius: 50%;
+    width: 20px;
+    height: 20px;
+    animation: spin 1s linear infinite;
+    display: inline-block;
+    margin-left: 0.5rem;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* ==================== PRINT STYLES ==================== */
+@media print {
+    .navbar,
+    .footer,
+    .btn,
+    .floating-btn {
+        display: none !important;
+    }
+    
+    body {
+        color: black !important;
+        background: white !important;
+    }
+    
+    .card,
+    .profile-section,
+    .order-card {
+        border: 1px solid #ccc !important;
+        box-shadow: none !important;
+        break-inside: avoid;
+    }
+}
+
+/* ==================== ACCESIBILIDAD ==================== */
+
+/* Focus visible para navegación por teclado */
+:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 2px;
+}
+
+/* Reducir movimiento para usuarios que lo prefieren */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* Alto contraste */
+@media (prefers-contrast: high) {
+    :root {
+        --border: #ffffff;
+        --text-secondary: #ffffff;
+    }
+}
+
+/* Modo oscuro forzado */
+@media (prefers-color-scheme: dark) {
+    /* Los estilos ya están optimizados para modo oscuro */
+}
+
+/* ==================== SCROLLBAR PERSONALIZADA ==================== */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--accent);
+}
+
+/* Firefox scrollbar */
+* {
+    scrollbar-width: thin;
+    scrollbar-color: var(--primary) var(--bg-secondary);
+}
