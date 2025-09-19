@@ -61,10 +61,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="login-container">
         <div style="text-align: center; margin-bottom: 2rem;">
-            <div class="dragon-logo" style="font-size: 3rem; margin-bottom: 1rem;">
-                <i class="fas fa-dragon"></i>
-            </div>
-            <h2 style="color: var(--primary); text-shadow: 0 0 10px var(--primary); font-family: 'Orbitron', sans-serif;">DRAGONTECH</h2>
+            <!-- Logo personalizado -->
+            <img src="uploads/logo.png.jpg" alt="Logo DragonTech" style="max-width: 150px; margin-bottom: 1rem;">
+            
+            <h2 style="color: var(--primary); text-shadow: 0 0 10px var(--primary); font-family: 'Orbitron', sans-serif;">
+                DRAGONTECH
+            </h2>
         </div>
         
         <h3 style="text-align: center; margin-bottom: 2rem; color: var(--text-secondary);">CREAR CUENTA</h3>
