@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 13-09-2025 a las 05:19:05
+-- Tiempo de generación: 20-09-2025 a las 05:53:41
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -100,16 +100,32 @@ CREATE TABLE `usuarios` (
   `direccion` text DEFAULT NULL,
   `telefono` varchar(20) DEFAULT NULL,
   `rol` enum('cliente','vendedor','admin') DEFAULT 'cliente',
-  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp()
+  `fecha_registro` timestamp NOT NULL DEFAULT current_timestamp(),
+  `google_id` varchar(255) DEFAULT NULL,
+  `registered_with_password` tinyint(1) DEFAULT 0
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Volcado de datos para la tabla `usuarios`
 --
 
-INSERT INTO `usuarios` (`id`, `username`, `email`, `password`, `nombre_completo`, `direccion`, `telefono`, `rol`, `fecha_registro`) VALUES
-(1, 'admin', 'admin@dragonbyte.com', '$2y$10$92IXUNpkjO0rOQ5byMi.Ye4oKoEa3Ro9llC/.og/at2.uheWG/igi', 'Administrador Principal', NULL, NULL, 'admin', '2025-09-09 22:11:08'),
-(2, 'ale1205', '226w0453@zongolica.tecnm.mx', '$2y$10$6WKRia399/4tY1g28sX5i.lfEi0.aUbwabnZMyA9lh7YzH5Kudbha', NULL, NULL, NULL, 'cliente', '2025-09-09 22:13:44');
+INSERT INTO `usuarios` (`id`, `username`, `email`, `password`, `nombre_completo`, `direccion`, `telefono`, `rol`, `fecha_registro`, `google_id`, `registered_with_password`) VALUES
+(1, 'admin_dragon', 'admin@dragonbyte.com', '$2y$10$oPYwMUG4JrpjIBtp/46VRus4XJD/0Mjmx8nu/0TdznIz.db.dK0Ke', 'administrador principal\r\n', NULL, NULL, 'admin', '2025-09-09 22:11:08', NULL, 0),
+(8, 'elguerito200247', 'elguerito200247@gmail.com', '$2y$10$7Nc52qYE5xlid2JExJ85m.keGL1yiLYVzW2WBnb1aL73PdmttS1aS', 'Alex Hernandes', NULL, NULL, 'cliente', '2025-09-20 03:03:26', NULL, 0);
+
+-- --------------------------------------------------------
+
+--
+-- Estructura de tabla para la tabla `valoraciones`
+--
+
+CREATE TABLE `valoraciones` (
+  `id` int(11) NOT NULL,
+  `laptop_id` int(11) NOT NULL,
+  `usuario_id` int(11) NOT NULL,
+  `tipo` enum('like','dislike') NOT NULL,
+  `fecha` timestamp NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 -- --------------------------------------------------------
 
@@ -163,6 +179,14 @@ ALTER TABLE `usuarios`
   ADD KEY `idx_usuario_email` (`email`);
 
 --
+-- Indices de la tabla `valoraciones`
+--
+ALTER TABLE `valoraciones`
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `unique_rating` (`laptop_id`,`usuario_id`),
+  ADD KEY `usuario_id` (`usuario_id`);
+
+--
 -- Indices de la tabla `ventas`
 --
 ALTER TABLE `ventas`
@@ -195,6 +219,12 @@ ALTER TABLE `laptops`
 -- AUTO_INCREMENT de la tabla `usuarios`
 --
 ALTER TABLE `usuarios`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+
+--
+-- AUTO_INCREMENT de la tabla `valoraciones`
+--
+ALTER TABLE `valoraciones`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
@@ -226,6 +256,13 @@ ALTER TABLE `detalles_venta`
 --
 ALTER TABLE `laptops`
   ADD CONSTRAINT `laptops_ibfk_1` FOREIGN KEY (`vendedor`) REFERENCES `usuarios` (`id`);
+
+--
+-- Filtros para la tabla `valoraciones`
+--
+ALTER TABLE `valoraciones`
+  ADD CONSTRAINT `valoraciones_ibfk_1` FOREIGN KEY (`laptop_id`) REFERENCES `laptops` (`id`) ON DELETE CASCADE,
+  ADD CONSTRAINT `valoraciones_ibfk_2` FOREIGN KEY (`usuario_id`) REFERENCES `usuarios` (`id`) ON DELETE CASCADE;
 
 --
 -- Filtros para la tabla `ventas`
